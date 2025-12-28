@@ -1,7 +1,25 @@
-.DS_Store
-.idea/
+# --- Dependencies & Package Manager ---
+node_modules
+.pnpm-store
+pnpm-lock.yaml
 
-node_modules/
+# --- Terraform (Let `terraform fmt` handle these) ---
+infra/.terraform
+infra/*.tfstate
+infra/*.tfstate.backup
+infra/.terraform.lock.hcl
+*.tf
+*.tfvars
 
+# --- TanStack Start / Vinxi Build Artifacts ---
+.vinxi
+.output
+.wrangler
+dist
+build
+
+# --- Environment & OS ---
 .env
-.envrc
+.dev.vars
+.DS_Store
+coverage
