@@ -53,6 +53,7 @@ const IGNORE_PATTERNS: RegExp[] = [
   /dist/,
   /dist-ssr/,
   /routeTree\.gen\.ts$/,
+  /LICENSE/,
 ];
 
 // ---------------------------------------------------------------------------
