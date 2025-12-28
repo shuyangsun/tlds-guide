@@ -13,6 +13,7 @@ node_modules/
 backend.tf
 
 # Local .terraform directories
+.terraform
 **/.terraform/*
 
 # .tfstate files
