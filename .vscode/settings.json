@@ -7,5 +7,26 @@
   },
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
-  }
+  },
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "[json]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "runOnSave.commands": [
+    {
+      "match": ".*\\.tf$|.*\\.tfvars$",
+      "command": "pnpm tsx scripts/add-file-path.ts --fix ${file}",
+      "runIn": "backend",
+      "runningStatusMessage": "Adding file path header...",
+      "finishStatusMessage": "File path header updated",
+      "autoSaveIgnored": true
+    }
+  ]
 }

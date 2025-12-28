@@ -1,0 +1,26 @@
+# --- Dependencies & Package Manager ---
+node_modules/
+.pnpm-store
+pnpm-lock.yaml
+
+# --- Terraform (Let `terraform fmt` handle these) ---
+infra/.terraform
+infra/*.tfstate
+infra/*.tfstate.backup
+infra/.terraform.lock.hcl
+*.tf
+*.tfvars
+
+# --- TanStack Start / Vinxi Build Artifacts ---
+.vinxi
+.output
+.wrangler
+dist
+dist-ssr
+build
+
+# --- Environment & OS ---
+.env
+.dev.vars
+.DS_Store
+coverage

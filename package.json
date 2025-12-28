@@ -1,13 +1,22 @@
 {
   "name": "tlds-guide",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "How to not waste money on domain names.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "tflint --recursive --chdir=infra && pnpm tsx scripts/add-file-path.ts infra",
+    "format": "prettier --write . && terraform fmt -recursive infra && tflint --recursive --chdir=infra --fix && pnpm tsx scripts/add-file-path.ts --fix infra",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.26.2"
+  "packageManager": "pnpm@10.26.2",
+  "devDependencies": {
+    "glob": "^13.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
+    "prettier-plugin-sh": "^0.18.0",
+    "tsx": "^4.21.0"
+  }
 }
