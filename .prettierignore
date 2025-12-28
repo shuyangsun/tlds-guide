@@ -18,6 +18,7 @@ infra/.terraform.lock.hcl
 dist
 dist-ssr
 build
+routeTree.gen.ts
 
 # --- Environment & OS ---
 .env

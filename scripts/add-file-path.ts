@@ -34,9 +34,26 @@ interface HeaderConfig {
   prefix: string;
   /** File extensions this config applies to (derived from pattern) */
   extensions: string[];
-  /** Regex patterns for directories to ignore during traversal */
-  ignorePatterns: RegExp[];
 }
+
+// ---------------------------------------------------------------------------
+// Global Ignore Patterns
+// ---------------------------------------------------------------------------
+
+/** Regex patterns for directories/files to ignore during traversal */
+const IGNORE_PATTERNS: RegExp[] = [
+  /\.git/,
+  /\.wrangler/,
+  /\.tanstack/,
+  /\.vscode/,
+  /\.husky/,
+  /\.terraform/,
+  /node_modules/,
+  /build/,
+  /dist/,
+  /dist-ssr/,
+  /routeTree\.gen\.ts$/,
+];
 
 // ---------------------------------------------------------------------------
 // Header Configurations
@@ -47,19 +64,12 @@ const HEADER_CONFIGS: HeaderConfig[] = [
     pattern: "*.{tf,tfvars}",
     prefix: "# Path: ",
     extensions: [".tf", ".tfvars"],
-    ignorePatterns: [/node_modules/, /\.terraform/, /\.git/],
   },
   // Future: JS/TS support
   // {
   //   pattern: "*.{js,ts,jsx,tsx}",
   //   prefix: "// Path: ",
   //   extensions: [".js", ".ts", ".jsx", ".tsx"],
-  //   ignorePatterns: [
-  //     /node_modules/,
-  //     /dist/,
-  //     /\.next/,
-  //     /build/,
-  //   ],
   // },
 ];
 
@@ -85,8 +95,8 @@ function getHeaderConfig(filePath: string): HeaderConfig | undefined {
 /**
  * Check if a directory path matches any ignore pattern
  */
-function shouldIgnoreDirectory(dirPath: string, config: HeaderConfig): boolean {
-  return config.ignorePatterns.some((pattern) => pattern.test(dirPath));
+function shouldIgnoreDirectory(dirPath: string): boolean {
+  return IGNORE_PATTERNS.some((pattern) => pattern.test(dirPath));
 }
 
 /**
@@ -125,11 +135,9 @@ function traverseDirectory(
 ): void {
   const relativeDirPath = relative(projectRoot, dirPath);
 
-  // Check all configs for ignore patterns (we need to check if this dir should be ignored)
-  for (const config of HEADER_CONFIGS) {
-    if (shouldIgnoreDirectory(relativeDirPath, config)) {
-      return; // Skip this directory entirely
-    }
+  // Check if this directory should be ignored
+  if (shouldIgnoreDirectory(relativeDirPath)) {
+    return; // Skip this directory entirely
   }
 
   try {
@@ -139,13 +147,9 @@ function traverseDirectory(
       const fullPath = join(dirPath, entry.name);
 
       if (entry.isDirectory()) {
-        // Check if directory should be ignored by any config
+        // Check if directory should be ignored
         const relPath = relative(projectRoot, fullPath);
-        const shouldIgnore = HEADER_CONFIGS.some((config) =>
-          shouldIgnoreDirectory(relPath, config)
-        );
-
-        if (!shouldIgnore) {
+        if (!shouldIgnoreDirectory(relPath)) {
           traverseDirectory(fullPath, files, projectRoot);
         }
       } else if (entry.isFile()) {
