@@ -1,0 +1,48 @@
+# System & IDEs
+.DS_Store
+.idea/
+
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.envrc
+
+# Terraform & Terragrunt
+backend.tf
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude all .tfvars files, which are likely to contain sensitive data
+*.tfvars
+*.tfvars.json
+
+# Ignore override files as they are usually used to override resources locally
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Terraform lock files (optional - uncomment if you want to ignore)
+# .terraform.lock.hcl
+
+# Terragrunt cache
+.terragrunt-cache/
+**/.terragrunt-cache/*
+
+# Terragrunt generated files
+terragrunt-debug.tfvars.json
