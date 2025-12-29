@@ -1,5 +1,5 @@
-name: Deploy Staging
-run-name: Deploy to Staging • ${{ github.ref_name }} by ${{ github.actor }}
+name: Staging
+run-name: Deploy to Staging on ${{ github.ref_name }} by ${{ github.actor }}
 
 on:
   push:
