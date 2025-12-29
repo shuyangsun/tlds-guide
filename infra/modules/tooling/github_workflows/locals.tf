@@ -10,5 +10,6 @@ locals {
   iam_policy_name        = "terraform-state-access-${var.environment}"
   iam_role_name          = "github-actions-terraform-${var.environment}"
   state_s3_bucket        = "shuyang-tfstate-${var.environment}-us-east-1"
+  state_s3_bucket_prod   = "shuyang-tfstate-prod-us-east-1"
   state_s3_bucket_shared = "shuyang-tfstate-${var.environment}-us-east-1"
 }

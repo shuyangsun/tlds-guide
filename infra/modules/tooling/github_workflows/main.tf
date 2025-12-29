@@ -38,6 +38,7 @@ resource "aws_iam_policy" "terraform_state" {
     Version = "2012-10-17"
     Statement = [
       {
+        Sid    = "ManageStateBucket"
         Effect = "Allow"
         Action = [
           "s3:GetObject",
@@ -50,6 +51,18 @@ resource "aws_iam_policy" "terraform_state" {
           "arn:aws:s3:::${local.state_s3_bucket}/*",
           "arn:aws:s3:::${local.state_s3_bucket_shared}",
           "arn:aws:s3:::${local.state_s3_bucket_shared}/*"
+        ]
+      },
+      {
+        Sid    = "ReadProdStateBucket"
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:ListBucket"
+        ]
+        Resource = [
+          "arn:aws:s3:::${local.state_s3_bucket_prod}",
+          "arn:aws:s3:::${local.state_s3_bucket_prod}/*"
         ]
       }
     ]
