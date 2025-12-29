@@ -1,0 +1,68 @@
+name: Tooling
+run-name: Deploy Tooling by ${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to confirm deployment'
+        required: true
+        type: string
+
+concurrency:
+  group: deploy-tooling
+  cancel-in-progress: false
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
+jobs:
+  validate-input:
+    name: Validate Input
+    runs-on: ubuntu-slim
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Validate Confirmation
+        run: |
+          if [ "${{ inputs.confirm }}" != "deploy" ]; then
+            echo "❌ Deployment not confirmed. Please type 'deploy' to confirm."
+            exit 1
+          fi
+          echo "✅ Deployment confirmed"
+
+  deploy-tooling:
+    name: Deploy Tooling Infrastructure
+    needs: validate-input
+    runs-on: ubuntu-slim
+    env:
+      TF_VAR_root_domain: 'tlds.guide'
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_INFRA_PROD }}
+      TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Configure AWS S3 Remote State
+        uses: aws-actions/configure-aws-credentials@v5.1.1
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/github-actions-terraform-prod
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3.1.2
+        with:
+          terraform_version: 1.14.3
+          terraform_wrapper: false
+
+      - name: Setup Terragrunt
+        uses: gruntwork-io/terragrunt-action@v3.0.2
+        with:
+          tg_version: 0.96.1
+          tf_path: terraform
+
+      - name: Terragrunt Apply
+        run: terragrunt run --all apply --non-interactive -- -auto-approve
+        working-directory: ${{ github.workspace }}/infra/tooling

@@ -1,4 +1,4 @@
-# Path: infra/global/tooling/github_oidc/versions.tf
+# Path: infra/tooling/github_oidc/versions.tf
 
 terraform {
   required_version = "~> 1.14.3"

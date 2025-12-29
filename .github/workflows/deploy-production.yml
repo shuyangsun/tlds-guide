@@ -73,7 +73,10 @@ jobs:
           base: ${{ steps.prev-tag.outputs.prev_tag }}
           filters: |
             infra:
-              - 'infra/**'
+              - 'infra/global/**'
+              - 'infra/prod/**'
+              - 'infra/modules/**'
+              - 'infra/*.hcl'
             apps:
               - 'apps/**'
               - '.github/workflows/deploy-production.yml'

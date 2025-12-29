@@ -1,4 +1,4 @@
-# Path: infra/global/tooling/github_oidc/outputs.tf
+# Path: infra/tooling/github_oidc/outputs.tf
 
 output "oidc_provider_arn" {
   description = "ARN of the GitHub OIDC provider"

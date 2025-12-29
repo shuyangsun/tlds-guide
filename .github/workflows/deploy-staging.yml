@@ -5,7 +5,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'infra/**'
+      - 'infra/staging/**'
+      - 'infra/modules/**'
+      - 'infra/*.hcl'
       - 'apps/**'
       - '.github/workflows/deploy-staging.yml'
 
@@ -38,7 +40,9 @@ jobs:
         with:
           filters: |
             infra:
-              - 'infra/**'
+              - 'infra/staging/**'
+              - 'infra/modules/**'
+              - 'infra/*.hcl'
             apps:
               - 'apps/**'
               - '.github/workflows/deploy-staging.yml'
