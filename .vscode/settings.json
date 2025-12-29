@@ -21,7 +21,7 @@
   },
   "runOnSave.commands": [
     {
-      "match": ".*\\.tf$|.*\\.tfvars$",
+      "match": "^(?!.*backend\\.tf$).*\\.tf$|.*\\.tfvars$",
       "command": "pnpm tsx scripts/add-file-path.ts --fix ${file}",
       "runIn": "backend",
       "runningStatusMessage": "Adding file path header...",

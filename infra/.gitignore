@@ -14,11 +14,10 @@ backend.tf
 
 # Local .terraform directories
 .terraform
-**/.terraform/*
 
 # .tfstate files
 *.tfstate
-*.tfstate.*
+*.tfstate.backup
 
 # Crash log files
 crash.log

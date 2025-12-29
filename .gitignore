@@ -8,8 +8,6 @@ infra/.terraform
 infra/*.tfstate
 infra/*.tfstate.backup
 infra/.terraform.lock.hcl
-*.tf
-*.tfvars
 
 # --- TanStack Start / Vinxi Build Artifacts ---
 .vinxi
