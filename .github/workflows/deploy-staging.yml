@@ -43,9 +43,11 @@ jobs:
 
       - name: Terragrunt Apply (staging, tooling)
         run: |
-          terragrunt run-all apply --non-interactive --auto-approve \
+          terragrunt run-all apply \
+            --terragrunt-non-interactive \
             --terragrunt-include-dir tooling \
-            --terragrunt-include-dir staging
+            --terragrunt-include-dir staging \
+            -- -auto-approve
         working-directory: ${{ github.workspace }}/infra
 
   depoy-web-app:
