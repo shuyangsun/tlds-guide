@@ -5,5 +5,5 @@ jobs:
   Deploy-Web-App:
     runs-on: ubuntu-latest
     steps:
-      - run: cd ${{ github.workspace }}/apps/web/
+      - run: cd ${{ github.workspace }}
       - run: ls -la
