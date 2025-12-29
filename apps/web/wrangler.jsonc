@@ -11,6 +11,26 @@
   "observability": {
     "enabled": true,
   },
+  "env": {
+    "staging": {
+      "name": "tlds-guide-staging",
+      "routes": [
+        {
+          "pattern": "staging.tlds.guide/*",
+          "zone_name": "tlds.guide",
+        },
+      ],
+    },
+    "prod": {
+      "name": "tlds-guide-prod",
+      "routes": [
+        {
+          "pattern": "tlds.guide/*",
+          "zone_name": "tlds.guide",
+        },
+      ],
+    },
+  },
   /**
    * Smart Placement
    * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
