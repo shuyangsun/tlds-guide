@@ -6,7 +6,7 @@
 #   cd apps/web && pnpm run deoploy:staging
 #
 # The staging environment in wrangler.jsonc configures:
-#   - Worker name: web-staging
+#   - Worker name: tlds-guide-staging
 #   - Route: staging.tlds.guide/*
 
 module "dns_records" {
