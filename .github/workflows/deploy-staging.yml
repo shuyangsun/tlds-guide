@@ -10,7 +10,18 @@ env:
   ENVIRONMENT: staging
 
 jobs:
-  Deploy-Web-App:
+  deploy-infra:
+    name: Deploy Infrastructure
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+        with:
+          ref: ${{ github.ref }}
+
+  depoy-web-app:
+    name: Deploy Web App
+    needs: deploy-infra
     runs-on: ubuntu-slim
     steps:
       - name: Checkout
