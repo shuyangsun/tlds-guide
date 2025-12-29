@@ -10,7 +10,7 @@ const config = defineConfig({
   plugins: [
     devtools(),
     cloudflare({ viteEnvironment: { name: "ssr" } }),
-    // this is the plugin that enables path aliases
+    // this is the plugin that enables path aliases - must be first for dependency scanning
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
