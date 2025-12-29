@@ -4,10 +4,10 @@ node_modules/
 pnpm-lock.yaml
 
 # --- Terraform (Let `terraform fmt` handle these) ---
-infra/.terraform
-infra/*.tfstate
-infra/*.tfstate.backup
-infra/.terraform.lock.hcl
+.terraform
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
 *.tf
 *.tfvars
 
