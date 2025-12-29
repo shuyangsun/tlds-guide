@@ -1,4 +1,4 @@
-# Path: infra/global/zone/provider.tf
+# Path: infra/global/networking/zone/provider.tf
 
 provider "cloudflare" {
   api_token = var.cloudflare_api_token

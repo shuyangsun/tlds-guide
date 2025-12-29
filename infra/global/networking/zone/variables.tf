@@ -1,4 +1,4 @@
-# Path: infra/global/zone/variables.tf
+# Path: infra/global/networking/zone/variables.tf
 
 variable "root_domain" {
   description = "Root domain (e.g., mydomain.com)"

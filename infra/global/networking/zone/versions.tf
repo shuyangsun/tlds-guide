@@ -1,4 +1,4 @@
-# Path: infra/global/zone/versions.tf
+# Path: infra/global/networking/zone/versions.tf
 
 # Path: terraform/global/networking/dns/versions.tf
 
