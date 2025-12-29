@@ -12,6 +12,7 @@
     "preview": "pnpm run build && vite preview",
     "cf-typegen": "wrangler types"
   },
+  "packageManager": "pnpm@10.26.2",
   "dependencies": {
     "@cloudflare/vite-plugin": "~1.17.1",
     "@tailwindcss/vite": "^4.1.18",
