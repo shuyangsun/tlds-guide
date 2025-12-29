@@ -4,3 +4,8 @@ module "gh_workflows" {
   source      = "../../../modules/tooling/github_workflows"
   environment = "staging"
 }
+
+module "gh_workflows" {
+  source      = "../../../modules/tooling/github_workflows"
+  environment = "prod"
+}
