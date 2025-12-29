@@ -15,13 +15,14 @@ env:
   ENVIRONMENT: prod
 
 jobs:
-  # Optional: Verify that this release tag was created from an RC-tested commit
-  # This job checks if the commit has a corresponding RC tag, providing a soft gate
+  # Verify that this release tag was created from an RC-tested commit
+  # This job checks if the commit has a corresponding RC tag and outputs it for artifact download
   verify-rc-exists:
     name: Verify RC Tag Exists
     runs-on: ubuntu-slim
     outputs:
       rc_verified: ${{ steps.check-rc.outputs.rc_exists }}
+      rc_tag: ${{ steps.check-rc.outputs.rc_tag }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.1
@@ -31,19 +32,29 @@ jobs:
       - name: Check for RC Tag on Same Commit
         id: check-rc
         run: |
+          # Get the base version from the release tag (e.g., v1.0.0 from v1.0.0)
+          RELEASE_TAG="${{ github.ref_name }}"
+          BASE_VERSION="${RELEASE_TAG}"
+
           # Get all tags pointing to this commit
           COMMIT_SHA="${{ github.sha }}"
           TAGS_ON_COMMIT=$(git tag --points-at "$COMMIT_SHA")
 
-          # Check if any RC tag exists on this commit
-          RC_TAG=$(echo "$TAGS_ON_COMMIT" | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+-' || true)
+          # Find RC tags that match this version (e.g., v1.0.0-rc1, v1.0.0-beta.1)
+          # Filter for tags that start with the base version followed by a hyphen
+          RC_TAGS=$(echo "$TAGS_ON_COMMIT" | grep -E "^${BASE_VERSION}-" || true)
 
-          if [ -n "$RC_TAG" ]; then
-            echo "✅ Found RC tag(s) on this commit: $RC_TAG"
+          if [ -n "$RC_TAGS" ]; then
+            # Get the most recent RC tag (by sorting, last one is most recent)
+            RC_TAG=$(echo "$RC_TAGS" | sort -V | tail -1)
+            echo "✅ Found RC tag for ${BASE_VERSION}: ${RC_TAG}"
             echo "rc_exists=true" >> "$GITHUB_OUTPUT"
+            echo "rc_tag=${RC_TAG}" >> "$GITHUB_OUTPUT"
           else
-            echo "⚠️ No RC tag found on this commit. Proceeding anyway..."
+            echo "❌ No RC tag found for ${BASE_VERSION} on this commit"
+            echo "Available tags on commit: ${TAGS_ON_COMMIT}"
             echo "rc_exists=false" >> "$GITHUB_OUTPUT"
+            echo "rc_tag=" >> "$GITHUB_OUTPUT"
           fi
 
   detect-changes:
@@ -122,10 +133,11 @@ jobs:
 
   deploy-web-app:
     name: Deploy Web App
-    needs: [detect-changes, deploy-infra]
+    needs: [verify-rc-exists, detect-changes, deploy-infra]
     if: |
       always() &&
       needs.detect-changes.outputs.apps == 'true' &&
+      needs.verify-rc-exists.outputs.rc_verified == 'true' &&
       (needs.deploy-infra.result == 'success' || needs.deploy-infra.result == 'skipped')
     runs-on: ubuntu-slim
     steps:
@@ -133,6 +145,21 @@ jobs:
         uses: actions/checkout@v6.0.1
         with:
           ref: ${{ github.ref }}
+
+      - name: Download RC Artifact from GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RC_TAG: ${{ needs.verify-rc-exists.outputs.rc_tag }}
+        run: |
+          echo "Downloading artifact from RC release: ${RC_TAG}"
+          gh release download "${RC_TAG}" \
+            --pattern "web-app-${RC_TAG}.tar.gz" \
+            --dir .
+
+      - name: Extract Artifact
+        run: |
+          RC_TAG="${{ needs.verify-rc-exists.outputs.rc_tag }}"
+          tar -xzvf "web-app-${RC_TAG}.tar.gz" -C apps/web
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4.2.0
@@ -145,10 +172,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-        working-directory: apps/web
-
-      - name: Build for Production
-        run: pnpm run build:prod
         working-directory: apps/web
 
       - name: Deploy to Production
