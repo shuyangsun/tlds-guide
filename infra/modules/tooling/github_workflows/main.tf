@@ -64,6 +64,17 @@ resource "aws_iam_policy" "terraform_state" {
           "arn:aws:s3:::${local.state_s3_bucket_prod}",
           "arn:aws:s3:::${local.state_s3_bucket_prod}/*"
         ]
+      },
+      {
+        Sid    = "ManageProdStateLocks"
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:DeleteObject"
+        ]
+        Resource = [
+          "arn:aws:s3:::${local.state_s3_bucket_prod}/*.tflock"
+        ]
       }
     ]
   })
