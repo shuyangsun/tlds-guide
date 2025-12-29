@@ -5,5 +5,7 @@ jobs:
   Deploy-Web-App:
     runs-on: ubuntu-latest
     steps:
-      - run: cd ${{ github.workspace }}
-      - run: ls -la
+      - name: Check out repository code
+        uses: actions/checkout@v5
+      - name: Change to web app working diretory
+        run: cd ${{ github.workspace }}/apps/web/ && pwd
