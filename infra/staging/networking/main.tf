@@ -3,7 +3,7 @@
 # The Worker route is managed in wrangler.jsonc via environment configuration.
 #
 # To deploy the staging worker:
-#   cd apps/web && pnpm run build && wrangler deploy --env staging
+#   cd apps/web && pnpm run deoploy:staging
 #
 # The staging environment in wrangler.jsonc configures:
 #   - Worker name: web-staging
