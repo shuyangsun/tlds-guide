@@ -47,6 +47,7 @@ jobs:
             --non-interactive \
             --queue-include-dir "tooling/**" \
             --queue-include-dir "staging/**" \
+            --ignore-external-dependencies \
             -- -auto-approve
         working-directory: ${{ github.workspace }}/infra
 
