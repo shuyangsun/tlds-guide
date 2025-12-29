@@ -33,11 +33,13 @@ jobs:
         uses: hashicorp/setup-terraform@v3.1.2
         with:
           terraform_version: 1.14.3
+          terraform_wrapper: false
 
       - name: Setup Terragrunt
         uses: gruntwork-io/terragrunt-action@v3.0.2
         with:
           tg_version: 0.96.1
+          tf_path: terraform
 
       - name: Terragrunt Apply (staging, tooling)
         run: |
