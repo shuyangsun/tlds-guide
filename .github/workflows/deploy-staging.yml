@@ -15,6 +15,8 @@ jobs:
           version: 10.26.2
       - name: Check out repository code
         uses: actions/checkout@v6.0.1
+        with:
+          ref: ${{ github.ref }}
       - name: Change working directory to apps/web
         run: cd ${{ github.workspace }}/apps/web/
       - name: Build web app
