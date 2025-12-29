@@ -9,3 +9,8 @@ variable "environment" {
     error_message = "Environment must be either \"prod\" or \"staging\"."
   }
 }
+
+variable "github_oidc_provider_arn" {
+  description = "ARN of the GitHub OIDC provider (created in global/tooling/github_oidc)"
+  type        = string
+}

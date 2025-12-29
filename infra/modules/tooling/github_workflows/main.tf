@@ -1,18 +1,12 @@
 # Path: infra/modules/tooling/github_workflows/main.tf
 
-resource "aws_iam_openid_connect_provider" "github" {
-  url             = local.gh_oidc_url
-  client_id_list  = [local.gh_oidc_client_id]
-  thumbprint_list = [local.gh_oidc_thumbprint]
-}
-
 data "aws_iam_policy_document" "github_actions_assume" {
   statement {
     sid     = local.iam_policy_doc_name
     actions = ["sts:AssumeRoleWithWebIdentity"]
     principals {
       type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.github.arn]
+      identifiers = [var.github_oidc_provider_arn]
     }
     condition {
       test     = "StringEquals"
