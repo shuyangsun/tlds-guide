@@ -8,7 +8,8 @@
     "build:prod": "vite build --mode production",
     "serve": "vite preview",
     "test": "vitest run",
-    "deploy": "wrangler deploy",
+    "deploy": "wrangler deploy --env staging",
+    "deploy:prod": "wrangler deploy --env prod",
     "preview": "pnpm run build && vite preview",
     "cf-typegen": "wrangler types"
   },
