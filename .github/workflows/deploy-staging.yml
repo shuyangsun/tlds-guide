@@ -1,9 +1,13 @@
 name: Staging
-run-name: Deploy to Staging on ${{ github.ref_name }} by ${{ github.actor }}
+run-name: Deploy to staging on ${{ github.ref_name }} by ${{ github.actor }}
 
 on:
   push:
     branches: [main]
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
 
 permissions:
   id-token: write # Required for OIDC
@@ -15,8 +19,16 @@ env:
 
 jobs:
   deploy-infra:
-    name: Deploy Infrastructure
+    name: Deploy Infrastructure (${{ matrix.name }})
     runs-on: ubuntu-slim
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Staging
+            directory: staging
+          - name: Tooling
+            directory: tooling
     env:
       TF_VAR_root_domain: 'tlds.guide'
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_INFRA_STAGING }}
@@ -47,14 +59,9 @@ jobs:
           tg_version: 0.96.1
           tf_path: terraform
 
-      - name: Terragrunt Apply (staging, tooling)
-        run: |
-          terragrunt run --all apply \
-            --non-interactive \
-            --queue-include-dir "tooling/**" \
-            --queue-include-dir "staging/**" \
-            -- -auto-approve
-        working-directory: ${{ github.workspace }}/infra
+      - name: Terragrunt Apply
+        run: terragrunt run --all apply --non-interactive -- -auto-approve
+        working-directory: ${{ github.workspace }}/infra/${{ matrix.directory }}
 
   depoy-web-app:
     name: Deploy Web App
