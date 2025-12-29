@@ -23,3 +23,6 @@ jobs:
       - name: Build web app
         run: pnpm run build
         working-directory: apps/web
+      - name: Deploy web app
+        run: pnpm run deploy
+        working-directory: apps/web
