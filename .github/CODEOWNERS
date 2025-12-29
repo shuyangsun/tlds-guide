@@ -1,0 +1,14 @@
+# CODEOWNERS - Define code owners for the repository
+# These owners will be automatically requested for review on PRs
+
+# Default owner for all files - only shuyangsun can approve and merge
+* @shuyangsun
+
+# Infrastructure changes require owner approval
+/infra/ @shuyangsun
+
+# Workflow changes require owner approval
+/.github/ @shuyangsun
+
+# Application code requires owner approval
+/apps/ @shuyangsun
