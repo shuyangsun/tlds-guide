@@ -6,7 +6,7 @@ terraform {
   backend "s3" {
     region = "${local.env_vars.locals.state_aws_region}"
     bucket = "${local.env_vars.locals.state_bucket}"
-    key    = "tlds_guide/{path_relative_to_include()}/terraform.tfstate"
+    key    = "tlds_guide/${path_relative_to_include()}/terraform.tfstate"
 
     use_lockfile = true
     encrypt      = true
