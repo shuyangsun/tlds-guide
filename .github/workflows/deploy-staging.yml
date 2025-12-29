@@ -13,11 +13,13 @@ jobs:
         uses: pnpm/action-setup@v4.2.0
         with:
           version: 10.26.2
-      - name: Check out repository code
+      - name: Check code
         uses: actions/checkout@v6.0.1
         with:
           ref: ${{ github.ref }}
-      - name: Change working directory to apps/web
-        run: cd ${{ github.workspace }}/apps/web/
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: apps/web
       - name: Build web app
         run: pnpm run build
+        working-directory: apps/web
