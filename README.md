@@ -1,6 +1,7 @@
 # [tlds.guide](https://tlds.guide/)
 
 [![Production](https://github.com/shuyangsun/tlds-guide/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/shuyangsun/tlds-guide/actions/workflows/deploy-production.yml)
+[![RC](https://github.com/shuyangsun/tlds-guide/actions/workflows/release-rc.yml/badge.svg)](https://github.com/shuyangsun/tlds-guide/actions/workflows/release-rc.yml)
 [![Staging](https://github.com/shuyangsun/tlds-guide/actions/workflows/deploy-staging.yml/badge.svg?branch=main)](https://github.com/shuyangsun/tlds-guide/actions/workflows/deploy-staging.yml)
 
 I wasted money on non-ICANN TLDs. This website helps you distinguish between
