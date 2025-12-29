@@ -17,6 +17,12 @@ jobs:
   deploy-infra:
     name: Deploy Infrastructure
     runs-on: ubuntu-slim
+    env:
+      TF_VAR_root_domain: 'tlds.guide'
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_INFRA_STAGING }}
+      TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      TF_VAR_porkbun_api_key: ${{ secrets.PORKBUN_API_KEY }}
+      TF_VAR_porkbun_secret_key: ${{ secrets.PORKBUN_SECRET_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.1
