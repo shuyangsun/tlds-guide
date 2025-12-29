@@ -1,11 +1,21 @@
 name: Deploy Staging
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
+
+env:
+  ENVIRONMENT: staging
+
 jobs:
   Deploy-Web-App:
     runs-on: ubuntu-latest
     steps:
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.2.0
+        with:
+          version: 10.26.2
       - name: Check out repository code
-        uses: actions/checkout@v5
-      - name: Change to web app working diretory
-        run: cd ${{ github.workspace }}/apps/web/ && pwd
+        uses: actions/checkout@v6.0.1
+      - name: Change working directory to apps/web
+        run: cd ${{ github.workspace }}/apps/web/
+      - name: Build web app
+        run: pnpm run build
