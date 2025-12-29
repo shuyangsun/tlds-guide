@@ -14,8 +14,39 @@ env:
   NODE_VERSION: '24.12.0'
 
 jobs:
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-slim
+    outputs:
+      apps: ${{ steps.filter.outputs.apps }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Get Previous Tag
+        id: prev-tag
+        run: |
+          # Get the previous tag (any type)
+          PREV_TAG=$(git tag --sort=-v:refname | head -2 | tail -1)
+          echo "prev_tag=${PREV_TAG}" >> "$GITHUB_OUTPUT"
+          echo "Previous tag: ${PREV_TAG}"
+
+      - name: Detect Changed Paths
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          base: ${{ steps.prev-tag.outputs.prev_tag }}
+          filters: |
+            apps:
+              - 'apps/**'
+              - '.github/workflows/release-rc.yml'
+
   build-release-artifacts:
     name: Build Release Artifacts
+    needs: detect-changes
+    if: needs.detect-changes.outputs.apps == 'true'
     runs-on: ubuntu-slim
     steps:
       - name: Checkout
