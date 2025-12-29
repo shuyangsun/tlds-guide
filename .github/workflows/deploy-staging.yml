@@ -43,10 +43,10 @@ jobs:
 
       - name: Terragrunt Apply (staging, tooling)
         run: |
-          terragrunt run-all apply \
-            --terragrunt-non-interactive \
-            --terragrunt-include-dir tooling \
-            --terragrunt-include-dir staging \
+          terragrunt run --all apply \
+            --non-interactive \
+            --queue-include-dir tooling \
+            --queue-include-dir staging \
             -- -auto-approve
         working-directory: ${{ github.workspace }}/infra
 
