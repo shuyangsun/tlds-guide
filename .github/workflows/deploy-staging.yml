@@ -19,16 +19,8 @@ env:
 
 jobs:
   deploy-infra:
-    name: Deploy ${{ matrix.name }} Infra
+    name: Deploy Staging Infra
     runs-on: ubuntu-slim
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: Staging
-            directory: staging
-          - name: Tooling
-            directory: tooling
     env:
       TF_VAR_root_domain: 'tlds.guide'
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_INFRA_STAGING }}
@@ -61,7 +53,7 @@ jobs:
 
       - name: Terragrunt Apply
         run: terragrunt run --all apply --non-interactive -- -auto-approve
-        working-directory: ${{ github.workspace }}/infra/${{ matrix.directory }}
+        working-directory: ${{ github.workspace }}/infra/staging
 
   depoy-web-app:
     name: Deploy Web App
