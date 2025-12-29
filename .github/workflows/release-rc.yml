@@ -1,4 +1,4 @@
-name: RC
+name: Release Candidate
 run-name: Build RC ${{ github.ref_name }} by ${{ github.actor }}
 
 on:
