@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
 
+permissions:
+  id-token: write # Required for OIDC
+  contents: read
+
 env:
   NODE_VERSION: '24.12.0'
   ENVIRONMENT: staging
@@ -18,6 +22,11 @@ jobs:
         uses: actions/checkout@v6.0.1
         with:
           ref: ${{ github.ref }}
+      - name: Configure AWS S3 Remote State
+        uses: aws-actions/configure-aws-credentials@v5.1.1
+        with:
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/github-actions-terraform-staging
+          aws-region: us-east-1
 
   depoy-web-app:
     name: Deploy Web App
