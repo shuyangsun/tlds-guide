@@ -7,7 +7,8 @@
     "build": "vite build",
     "serve": "vite preview",
     "test": "vitest run",
-    "deploy": "pnpm run build && wrangler deploy",
+    "deploy": "pnpm run build && wrangler deploy --env prod",
+    "deploy:staging": "pnpm run build && wrangler deploy --env staging",
     "preview": "pnpm run build && vite preview",
     "cf-typegen": "wrangler types"
   },
