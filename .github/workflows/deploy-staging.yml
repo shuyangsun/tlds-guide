@@ -19,7 +19,7 @@ env:
 
 jobs:
   deploy-infra:
-    name: Deploy Infrastructure (${{ matrix.name }})
+    name: Deploy ${{ matrix.name }} Infra
     runs-on: ubuntu-slim
     strategy:
       fail-fast: false
