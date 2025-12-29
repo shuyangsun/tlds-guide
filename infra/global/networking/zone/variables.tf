@@ -10,11 +10,6 @@ variable "cloudflare_account_id" {
   type        = string
 }
 
-variable "cloudflare_api_token" {
-  description = "Cloudflare API token"
-  type        = string
-}
-
 variable "porkbun_api_key" {
   description = "porkbun API key"
   type        = string
