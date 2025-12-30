@@ -254,9 +254,9 @@ const GOOD_TLDS = [
 function App() {
   return (
     <div className="min-h-screen flex justify-center py-8">
-      <ul>
+      <ul className="text-xl text-slate-700 space-y-1">
         {GOOD_TLDS.map((tld) => (
-          <li>{tld}</li>
+          <li key={tld}>.{tld}</li>
         ))}
       </ul>
     </div>
