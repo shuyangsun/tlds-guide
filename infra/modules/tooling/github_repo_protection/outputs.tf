@@ -1,9 +1,10 @@
 # Path: infra/modules/tooling/github_repo_protection/outputs.tf
 
-output "branch_protection_id" {
-  description = "The ID of the branch protection rule"
-  value       = github_branch_protection.main.id
-}
+# TODO: Re-enable main branch push protection when ready
+# output "branch_protection_id" {
+#   description = "The ID of the branch protection rule"
+#   value       = github_branch_protection.main.id
+# }
 
 output "tag_ruleset_id" {
   description = "The ID of the tag protection ruleset"
