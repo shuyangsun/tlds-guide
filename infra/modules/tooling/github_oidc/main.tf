@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "github_actions_assume_staging" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${local.gh_repo_branch}"]
+      values   = ["repo:${local.gh_repo_branch_main}"]
     }
   }
 }
@@ -113,7 +113,7 @@ data "aws_iam_policy_document" "github_actions_assume_prod" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${local.gh_repo_branch}"]
+      values   = ["repo:${local.gh_repo_tag_releases}"]
     }
   }
 }
