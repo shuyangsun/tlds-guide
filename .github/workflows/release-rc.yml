@@ -70,6 +70,8 @@ jobs:
       - name: Build for Production
         run: pnpm run build:prod
         working-directory: apps/web
+        env:
+          WRANGLER_ENV: prod
 
       - name: Create Release Archive
         run: |

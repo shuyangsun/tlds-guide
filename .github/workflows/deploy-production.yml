@@ -174,7 +174,7 @@ jobs:
         working-directory: apps/web
 
       - name: Deploy to Production
-        run: pnpm exec wrangler deploy --env prod --config dist/server/wrangler.json
+        run: pnpm exec wrangler deploy --config dist/server/wrangler.json
         working-directory: apps/web
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOY_WEB_PROD }}
