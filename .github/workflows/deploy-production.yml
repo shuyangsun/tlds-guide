@@ -94,7 +94,7 @@ jobs:
 
   deploy-infra:
     name: Deploy Infrastructure
-    needs: [verify-rc-exists, detect-changes]
+    needs: [detect-changes]
     if: needs.detect-changes.outputs.infra == 'true'
     runs-on: ubuntu-slim
     env:
