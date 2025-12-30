@@ -258,7 +258,7 @@ function App() {
       {/* Header */}
       <header className="text-center mb-6 max-w-lg">
         <h1 className="text-base sm:text-lg font-medium text-slate-600 mb-3">
-          ICANN domain TLDs supported by major cloud providers
+          Domain TLDs cloud provider support
         </h1>
         <div className="flex justify-center items-center gap-4 sm:gap-6">
           <AWSLogo className="h-5 sm:h-6 w-auto" />
