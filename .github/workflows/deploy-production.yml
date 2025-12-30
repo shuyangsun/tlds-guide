@@ -136,7 +136,6 @@ jobs:
     needs: [verify-rc-exists, detect-changes, deploy-infra]
     if: |
       always() &&
-      needs.detect-changes.outputs.apps == 'true' &&
       needs.verify-rc-exists.outputs.rc_verified == 'true' &&
       (needs.deploy-infra.result == 'success' || needs.deploy-infra.result == 'skipped')
     runs-on: ubuntu-slim
