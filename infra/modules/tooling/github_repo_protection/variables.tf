@@ -12,13 +12,14 @@ variable "repository_name" {
 # - force_push_bypassers
 # For personal repos, the owner has full control via enforce_admins setting.
 
-variable "require_approving_reviews" {
-  description = "Number of required approving reviews for PRs (0-6)"
-  type        = number
-  default     = 0
+# TODO: Re-enable main branch push protection when ready
+# variable "require_approving_reviews" {
+#   description = "Number of required approving reviews for PRs (0-6)"
+#   type        = number
+#   default     = 0
 
-  validation {
-    condition     = var.require_approving_reviews >= 0 && var.require_approving_reviews <= 6
-    error_message = "require_approving_reviews must be between 0 and 6"
-  }
-}
+#   validation {
+#     condition     = var.require_approving_reviews >= 0 && var.require_approving_reviews <= 6
+#     error_message = "require_approving_reviews must be between 0 and 6"
+#   }
+# }
