@@ -1,5 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AWSLogo, GCPLogo, CloudflareLogo } from "../components/logos";
+import {
+  AWSLogo,
+  AzureLogo,
+  GCPLogo,
+  CloudflareLogo,
+} from "../components/logos";
 import { GOOD_TLDS } from "@/model/tlds";
 
 export const Route = createFileRoute("/")({ component: App });
@@ -14,6 +19,7 @@ function App() {
         </h1>
         <div className="flex justify-center items-center gap-4 sm:gap-6">
           <AWSLogo className="h-5 sm:h-6 w-auto" />
+          <AzureLogo className="h-5 sm:h-6 w-auto" />
           <GCPLogo className="h-5 sm:h-6 w-auto" />
           <CloudflareLogo className="h-4 sm:h-5 w-auto" />
         </div>
