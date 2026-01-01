@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import {
+  ICANNLogo,
   AWSLogo,
   AzureLogo,
   GCPLogo,
   CloudflareLogo,
 } from "../components/logos";
-import { GOOD_TLDS } from "@/model/tlds";
+import { TLD_SUPPORT } from "@/model/tlds";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -18,6 +19,7 @@ function App() {
           Domain TLDs cloud provider support
         </h1>
         <div className="flex justify-center items-center gap-4 sm:gap-6">
+          <ICANNLogo className="h-5 sm:h-6 w-auto" />
           <AWSLogo className="h-5 sm:h-6 w-auto" />
           <AzureLogo className="h-5 sm:h-6 w-auto" />
           <GCPLogo className="h-5 sm:h-6 w-auto" />
@@ -26,8 +28,8 @@ function App() {
       </header>
       {/* TLD List */}
       <ul className="text-left text-xl text-slate-700 space-y-1 ml-10">
-        {GOOD_TLDS.map((tld) => (
-          <li key={tld}>.{tld}</li>
+        {TLD_SUPPORT.map((tld_support) => (
+          <li key={tld_support.tld}>.{tld_support.tld}</li>
         ))}
       </ul>
     </div>

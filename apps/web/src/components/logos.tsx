@@ -2,6 +2,10 @@ interface LogoProps {
   className?: string;
 }
 
+export function ICANNLogo({ className }: LogoProps) {
+  return <img src="/icann-logo.svg" alt="AWS" className={className} />;
+}
+
 export function AWSLogo({ className }: LogoProps) {
   return <img src="/aws-logo.svg" alt="AWS" className={className} />;
 }

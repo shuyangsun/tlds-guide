@@ -1,248 +1,71 @@
-export const GOOD_TLDS = [
-  "com",
-  "academy",
-  "actor",
-  "agency",
-  "airforce",
-  "apartments",
-  "associates",
-  "auction",
-  "band",
-  "bargains",
-  "bid",
-  "bike",
-  "bingo",
-  "biz",
-  "black",
-  "blue",
-  "boutique",
-  "builders",
-  "business",
-  "cab",
-  "cafe",
-  "camera",
-  "camp",
-  "capital",
-  "cards",
-  "care",
-  "careers",
-  "cash",
-  "catering",
-  "cc",
-  "center",
-  "chat",
-  "cheap",
-  "church",
-  "city",
-  "claims",
-  "cleaning",
-  "clinic",
-  "clothing",
-  "cloud",
-  "club",
-  "co",
-  "coach",
-  "codes",
-  "coffee",
-  "community",
-  "company",
-  "computer",
-  "condos",
-  "construction",
-  "consulting",
-  "contact",
-  "contractors",
-  "cool",
-  "coupons",
-  "cruises",
-  "dance",
-  "dating",
-  "deals",
-  "degree",
-  "delivery",
-  "democrat",
-  "dental",
-  "design",
-  "diamonds",
-  "digital",
-  "direct",
-  "directory",
-  "discount",
-  "dog",
-  "domains",
-  "education",
-  "email",
-  "engineering",
-  "enterprises",
-  "equipment",
-  "estate",
-  "events",
-  "exchange",
-  "expert",
-  "exposed",
-  "express",
-  "fail",
-  "fan",
-  "farm",
-  "finance",
-  "financial",
-  "fish",
-  "fitness",
-  "flights",
-  "florist",
-  "football",
-  "forsale",
-  "foundation",
-  "fun",
-  "fund",
-  "furniture",
-  "futbol",
-  "fyi",
-  "gallery",
-  "games",
-  "gifts",
-  "gives",
-  "glass",
-  "gmbh",
-  "golf",
-  "graphics",
-  "gratis",
-  "gripe",
-  "group",
-  "guide",
-  "guru",
-  "haus",
-  "healthcare",
-  "hockey",
-  "holdings",
-  "holiday",
-  "house",
-  "immo",
-  "immobilien",
-  "industries",
-  "info",
-  "ink",
-  "institute",
-  "insure",
-  "international",
-  "io",
-  "irish",
-  "jewelry",
-  "kaufen",
-  "kitchen",
-  "land",
-  "lease",
-  "legal",
-  "life",
-  "lighting",
-  "limited",
-  "limo",
-  "live",
-  "loan",
-  "ltd",
-  "maison",
-  "management",
-  "marketing",
-  "mba",
-  "me",
-  "media",
-  "memorial",
-  "mobi",
-  "moda",
-  "money",
-  "mortgage",
-  "mx",
-  "net",
-  "network",
-  "news",
-  "ninja",
-  "online",
-  "org",
-  "partners",
-  "parts",
-  "photography",
-  "photos",
-  "pictures",
-  "pizza",
-  "place",
-  "plumbing",
-  "plus",
-  "press",
-  "pro",
-  "productions",
-  "properties",
-  "pub",
-  "recipes",
-  "red",
-  "reisen",
-  "rentals",
-  "repair",
-  "report",
-  "republican",
-  "restaurant",
-  "reviews",
-  "rip",
-  "rocks",
-  "run",
-  "sale",
-  "sarl",
-  "school",
-  "schule",
-  "services",
-  "shoes",
-  "shopping",
-  "show",
-  "singles",
-  "site",
-  "ski",
-  "soccer",
-  "social",
-  "software",
-  "solar",
-  "solutions",
-  "space",
-  "store",
-  "stream",
-  "studio",
-  "style",
-  "supplies",
-  "supply",
-  "support",
-  "surgery",
-  "systems",
-  "tax",
-  "taxi",
-  "team",
-  "tech",
-  "technology",
-  "tennis",
-  "theater",
-  "tienda",
-  "tips",
-  "today",
-  "tools",
-  "tours",
-  "town",
-  "toys",
-  "trade",
-  "training",
-  "uk",
-  "university",
-  "uno",
-  "vacations",
-  "ventures",
-  "viajes",
-  "video",
-  "villas",
-  "vision",
-  "voyage",
-  "watch",
-  "website",
-  "wiki",
-  "wine",
-  "works",
-  "world",
-  "wtf",
-  "xyz",
-  "zone",
-];
+import { ICANN_TLDS } from "./tld/icann";
+import { AWS_TLDS } from "./tld/aws";
+import { GCP_TLDS } from "./tld/gcp";
+import { CLOUDFLARE_TLDS } from "./tld/cloudflare";
+
+const Providers = ["ICANN", "AWS", "AZURE", "GCP", "CLOUDFLARE"];
+
+type Provider = (typeof Providers)[number];
+
+class TldSupport {
+  constructor(
+    public tld: string,
+    public support: Record<Provider, boolean>
+  ) {}
+}
+
+const PROVIDERS: Record<Provider, Set<string>> = {
+  ICANN: ICANN_TLDS,
+  AWS: AWS_TLDS,
+  // AZURE: AZURE_TLDS,
+  AZURE: ICANN_TLDS, // TODO: placeholder for now, need to find good source.
+  GCP: GCP_TLDS,
+  CLOUDFLARE: CLOUDFLARE_TLDS,
+};
+
+function unionSets<T>(...sets: Set<T>[]): Set<T> {
+  const result = new Set<T>();
+  for (const set of sets) {
+    for (const item of set) {
+      result.add(item);
+    }
+  }
+  return result;
+}
+
+function customSort(a: string, b: string): number {
+  const priorities: string[] = ["com", "ai"];
+
+  const aIndex = priorities.indexOf(a);
+  const bIndex = priorities.indexOf(b);
+
+  // If both are in priorities, sort by their priority order
+  if (aIndex !== -1 && bIndex !== -1) {
+    return aIndex - bIndex;
+  }
+
+  // If only a is in priorities, it comes first
+  if (aIndex !== -1) {
+    return -1;
+  }
+
+  // If only b is in priorities, it comes first
+  if (bIndex !== -1) {
+    return 1;
+  }
+
+  // Neither is in priorities, sort alphabetically
+  return a.localeCompare(b);
+}
+
+export const TLD_SUPPORT: TldSupport[] = [
+  ...unionSets(...Object.values(PROVIDERS)),
+]
+  .sort(customSort)
+  .map((tld) => {
+    const support = {} as Record<Provider, boolean>;
+    for (const provider of Providers) {
+      support[provider as Provider] = PROVIDERS[provider as Provider].has(tld);
+    }
+    return new TldSupport(tld, support);
+  });
