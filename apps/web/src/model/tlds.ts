@@ -3,18 +3,18 @@ import { AWS_TLDS } from "./tld/aws";
 import { GCP_TLDS } from "./tld/gcp";
 import { CLOUDFLARE_TLDS } from "./tld/cloudflare";
 
-const Providers = ["ICANN", "AWS", "AZURE", "GCP", "CLOUDFLARE"];
+export const TLD_PROVIDERS = ["ICANN", "AWS", "AZURE", "GCP", "CLOUDFLARE"];
 
-type Provider = (typeof Providers)[number];
+export type TldProvider = (typeof TLD_PROVIDERS)[number];
 
 class TldSupport {
   constructor(
     public tld: string,
-    public support: Record<Provider, boolean>
+    public support: Record<TldProvider, boolean>
   ) {}
 }
 
-const PROVIDERS: Record<Provider, Set<string>> = {
+const PROVIDER_SUPPORTS: Record<TldProvider, Set<string>> = {
   ICANN: ICANN_TLDS,
   AWS: AWS_TLDS,
   // AZURE: AZURE_TLDS,
@@ -59,13 +59,14 @@ function customSort(a: string, b: string): number {
 }
 
 export const TLD_SUPPORT: TldSupport[] = [
-  ...unionSets(...Object.values(PROVIDERS)),
+  ...unionSets(...Object.values(PROVIDER_SUPPORTS)),
 ]
   .sort(customSort)
   .map((tld) => {
-    const support = {} as Record<Provider, boolean>;
-    for (const provider of Providers) {
-      support[provider as Provider] = PROVIDERS[provider as Provider].has(tld);
+    const support = {} as Record<TldProvider, boolean>;
+    for (const provider of TLD_PROVIDERS) {
+      support[provider as TldProvider] =
+        PROVIDER_SUPPORTS[provider as TldProvider].has(tld);
     }
     return new TldSupport(tld, support);
   });

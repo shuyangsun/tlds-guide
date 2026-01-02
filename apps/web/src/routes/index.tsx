@@ -6,32 +6,69 @@ import {
   GCPLogo,
   CloudflareLogo,
 } from "../components/logos";
-import { TLD_SUPPORT } from "@/model/tlds";
+import { type TldProvider, TLD_PROVIDERS, TLD_SUPPORT } from "@/model/tlds";
 
 export const Route = createFileRoute("/")({ component: App });
 
 function App() {
+  const logos: Record<TldProvider, React.ReactElement> = {
+    ICANN: <ICANNLogo className="h-6 sm:h-7 w-auto mx-auto" />,
+    AWS: <AWSLogo className="h-6 sm:h-7 w-auto mx-auto" />,
+    Azure: <AzureLogo className="h-8 sm:h-9 w-auto mx-auto" />,
+    GCP: <GCPLogo className="h-6 sm:h-7 w-auto mx-auto" />,
+    Cloudflare: <CloudflareLogo className="h-7 sm:h-8 w-auto mx-auto" />,
+  };
   return (
-    <div className="min-h-screen flex flex-col items-center py-6 px-4">
+    <div className="min-h-screen flex flex-col items-center py-4 sm:py-6 px-2 sm:px-4">
       {/* Header */}
-      <header className="text-center mb-6 max-w-lg">
-        <h1 className="text-base sm:text-lg font-medium text-slate-600 mb-3">
+      <header className="text-center mb-4 sm:mb-6 max-w-lg px-2">
+        <h1 className="text-sm sm:text-base md:text-lg font-medium text-slate-600 mb-3">
           Domain TLDs cloud provider support
         </h1>
-        <div className="flex justify-center items-center gap-4 sm:gap-6">
-          <ICANNLogo className="h-5 sm:h-6 w-auto" />
-          <AWSLogo className="h-5 sm:h-6 w-auto" />
-          <AzureLogo className="h-5 sm:h-6 w-auto" />
-          <GCPLogo className="h-5 sm:h-6 w-auto" />
-          <CloudflareLogo className="h-4 sm:h-5 w-auto" />
-        </div>
       </header>
-      {/* TLD List */}
-      <ul className="text-left text-xl text-slate-700 space-y-1 ml-10">
-        {TLD_SUPPORT.map((tld_support) => (
-          <li key={tld_support.tld}>.{tld_support.tld}</li>
-        ))}
-      </ul>
+      <div className="overflow-x-auto w-full max-w-5xl">
+        <table className="min-w-full bg-white border border-slate-200 rounded-lg shadow-sm">
+          <thead className="bg-slate-50 border-b border-slate-200">
+            <tr>
+              <th className="px-2 sm:px-3 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider bg-slate-50 w-20 sm:w-24">
+                TLD
+              </th>
+              {TLD_PROVIDERS.map((provider) => (
+                <th
+                  key={provider}
+                  className="px-2 sm:px-4 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider bg-white"
+                >
+                  {logos[provider]}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-200">
+            {TLD_SUPPORT.map((row, idx) => (
+              <tr
+                key={row.tld}
+                className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}
+              >
+                <td className="px-2 sm:px-3 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-slate-900">
+                  {row.tld}
+                </td>
+                {TLD_PROVIDERS.map((provider) => (
+                  <td
+                    key={`${row.tld}-${provider}`}
+                    className={`px-2 sm:px-4 py-3 sm:py-4 whitespace-nowrap text-center text-lg sm:text-xl font-bold ${
+                      row.support[provider]
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {row.support[provider] ? "✓" : "✗"}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
