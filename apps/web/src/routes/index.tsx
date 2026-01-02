@@ -14,9 +14,9 @@ function App() {
   const logos: Record<TldProvider, React.ReactElement> = {
     ICANN: <ICANNLogo className="h-6 sm:h-7 w-auto mx-auto" />,
     AWS: <AWSLogo className="h-6 sm:h-7 w-auto mx-auto" />,
-    Azure: <AzureLogo className="h-8 sm:h-9 w-auto mx-auto" />,
+    AZURE: <AzureLogo className="h-6 sm:h-7 w-auto mx-auto" />,
     GCP: <GCPLogo className="h-6 sm:h-7 w-auto mx-auto" />,
-    Cloudflare: <CloudflareLogo className="h-7 sm:h-8 w-auto mx-auto" />,
+    CLOUDFLARE: <CloudflareLogo className="h-6 sm:h-7 w-auto mx-auto" />,
   };
   return (
     <div className="min-h-screen flex flex-col items-center py-4 sm:py-6 px-2 sm:px-4">
