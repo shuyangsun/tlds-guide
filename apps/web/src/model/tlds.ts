@@ -1,5 +1,6 @@
 import { ICANN_TLDS } from "./tld/icann";
 import { AWS_TLDS } from "./tld/aws";
+import { AZURE_TLDS } from "./tld/azure";
 import { GCP_TLDS } from "./tld/gcp";
 import { CLOUDFLARE_TLDS } from "./tld/cloudflare";
 
@@ -17,8 +18,7 @@ class TldSupport {
 const PROVIDER_SUPPORTS: Record<TldProvider, Set<string>> = {
   ICANN: ICANN_TLDS,
   AWS: AWS_TLDS,
-  // AZURE: AZURE_TLDS,
-  AZURE: ICANN_TLDS, // TODO: placeholder for now, need to find good source.
+  AZURE: AZURE_TLDS,
   GCP: GCP_TLDS,
   CLOUDFLARE: CLOUDFLARE_TLDS,
 };
