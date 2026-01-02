@@ -33,6 +33,19 @@ function unionSets<T>(...sets: Set<T>[]): Set<T> {
   return result;
 }
 
+const ALL_TLDS: string[] = [...unionSets(...Object.values(PROVIDER_SUPPORTS))];
+const SUPPORT_COUNT: Map<string, number> = new Map<string, number>(
+  ALL_TLDS.map((tld) => {
+    let count = 0;
+    for (const supported of Object.values(PROVIDER_SUPPORTS)) {
+      if (supported.has(tld)) {
+        count++;
+      }
+    }
+    return [tld, count] as [string, number];
+  })
+);
+
 function customSort(a: string, b: string): number {
   const priorities: string[] = ["com", "ai"];
 
@@ -54,7 +67,14 @@ function customSort(a: string, b: string): number {
     return 1;
   }
 
-  // Neither is in priorities, sort alphabetically
+  // Neither is in priorities, sort by support count
+  const aCount = SUPPORT_COUNT.get(a) ?? 0;
+  const bCount = SUPPORT_COUNT.get(b) ?? 0;
+  if (aCount != bCount) {
+    return bCount - aCount;
+  }
+
+  // Equal count, sort by locale.
   return a.localeCompare(b);
 }
 
