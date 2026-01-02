@@ -1,6 +1,8 @@
+import { toUnicode } from "punycode";
+
 // Source: https://data.iana.org/TLD/tlds-alpha-by-domain.txt
 
-export const ICANN_TLDS: Set<string> = new Set<string>([
+const RAW_ICANN_TLDS: string[] = [
   "aaa",
   "aarp",
   "abb",
@@ -1439,4 +1441,13 @@ export const ICANN_TLDS: Set<string> = new Set<string>([
   "zone",
   "zuerich",
   "zw",
-]);
+];
+
+// Decode IDN punycode to real Unicode labels before exposing the set
+function decodePunycodeTlds(tlds: string[]): string[] {
+  return tlds.map((tld) => (tld.startsWith("xn--") ? toUnicode(tld) : tld));
+}
+
+export const ICANN_TLDS: Set<string> = new Set<string>(
+  decodePunycodeTlds(RAW_ICANN_TLDS)
+);
