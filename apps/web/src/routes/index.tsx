@@ -22,21 +22,19 @@ function App() {
     <div className="min-h-screen flex flex-col items-center py-4 sm:py-6 px-2 sm:px-4">
       {/* Header */}
       <header className="text-center mb-4 sm:mb-6 max-w-lg px-2">
-        <h1 className="text-sm sm:text-base md:text-lg font-medium text-slate-600 mb-3">
-          Domain TLDs cloud provider support
-        </h1>
+        <p className="text-xs text-slate-500 mb-3">Updated: 2026-1-1</p>
       </header>
-      <div className="overflow-x-auto w-full max-w-5xl">
+      <div className="w-full max-w-5xl">
         <table className="min-w-full bg-white border border-slate-200 rounded-lg shadow-sm">
-          <thead className="bg-slate-50 border-b border-slate-200">
+          <thead className="bg-slate-50">
             <tr>
-              <th className="px-2 sm:px-3 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider bg-slate-50 w-20 sm:w-24">
+              <th className="sticky top-0 z-10 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-slate-300 px-2 sm:px-3 py-3 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider bg-slate-50 w-20 sm:w-24">
                 TLD
               </th>
               {TLD_PROVIDERS.map((provider) => (
                 <th
                   key={provider}
-                  className="px-2 sm:px-4 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider bg-white"
+                  className="sticky top-0 z-10 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-slate-300 px-2 sm:px-4 py-3 text-center text-xs font-semibold text-slate-700 uppercase tracking-wider bg-slate-100"
                 >
                   {logos[provider]}
                 </th>
